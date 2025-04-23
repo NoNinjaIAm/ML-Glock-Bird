@@ -149,7 +149,7 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = new Vector2(transform.position.x, upperBoundY);
         }
-        // if we're beow lower bound die
+        // if we're below lower bound die
         else if (transform.position.y < lowerBoundY) Die();
     }
 

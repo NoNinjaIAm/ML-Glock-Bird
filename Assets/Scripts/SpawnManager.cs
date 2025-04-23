@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -19,44 +20,30 @@ public class SpawnManager : MonoBehaviour
     private float repeatScale = 0.1f;
     private float minRepeatTime = 2.5f;
 
-    bool spawning = false;
-    private float cumScore;
+    bool spawning = true;
+    private float cumScore = 0.0f;
+
+    // ML Agent Stuff
+    public List<Transform> pipeGaps = new List<Transform>();
+    public event Action OnDestroyingAllPipes;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+
+    public void HandleStartEpisode()
     {
+        StopCoroutine(SpawnObjects()); // Reset Coroutine
+        OnDestroyingAllPipes?.Invoke(); // Kill all existing pipes
+
         repeatTime = startRepeatTime;
-        GameManager.Instance.OnGameStart += HandleStartGame;
-    }
-
-    private void HandleStartGame()
-    {
-        cumScore = 0.0f;
-        spawning = true;
         StartCoroutine(SpawnObjects());
-
-        // Stop listening for game start
-        GameManager.Instance.OnGameStart -= HandleStartGame;
-        // Start listening for game over
-        GameManager.Instance.OnGameOver += HandleGameOver;
-        // Start Listening for changes in score
-        GameManager.Instance.OnScoreChanged += HandleScoreChange;
     }
 
     private void HandleScoreChange(int newScore)
     {
         cumScore = newScore;
-    }
-
-    private void HandleGameOver()
-    {
         spawning = false;
-
-        // Shut down events
-        GameManager.Instance.OnGameOver -= HandleGameOver;
-        GameManager.Instance.OnScoreChanged -= HandleScoreChange;
-
-        StopAllCoroutines(); // Stops all running coroutines for safety
     }
+
 
     private IEnumerator SpawnObjects ()
     {
@@ -65,7 +52,7 @@ public class SpawnManager : MonoBehaviour
             yield return new WaitForSeconds(repeatTime);
 
             // Generate random number between 0.01-1
-            float randomNumber = Random.Range(0.01f, 1.00f);
+            float randomNumber = UnityEngine.Random.Range(0.01f, 1.00f);
 
             GameObject objectToSpawn;
             Vector2 spawnRangeY;
@@ -77,16 +64,24 @@ public class SpawnManager : MonoBehaviour
                 objectToSpawn = gunPrefab;
                 spawnRangeY = spawnGunRangeY;
                 spawnPositionX = spawnGunPositionX;
+                float spawnPositionY = UnityEngine.Random.Range(spawnRangeY.x, spawnRangeY.y);
+
+                Instantiate(objectToSpawn, new Vector2(spawnPositionX, spawnPositionY), objectToSpawn.transform.rotation);
             }
             else // Pipe is default case
             {
                 objectToSpawn = pipeSetPrefab;
                 spawnRangeY = spawnPipeRangeY;
                 spawnPositionX = spawnPipePositionX;
-            }
-            float spawnPositionY = Random.Range(spawnRangeY.x, spawnRangeY.y);
+                float spawnPositionY = UnityEngine.Random.Range(spawnRangeY.x, spawnRangeY.y);
 
-            Instantiate(objectToSpawn, new Vector2(spawnPositionX, spawnPositionY), objectToSpawn.transform.rotation);
+                // Pass reference to self to pipe
+                var spawnedPipe = Instantiate(objectToSpawn, new Vector2(spawnPositionX, spawnPositionY), objectToSpawn.transform.rotation);
+                spawnedPipe.GetComponent<PipeHandler>().spawnManager = this;
+            }
+            
+
+            
 
             // Calculate new repeat time
             if(repeatTime > minRepeatTime)
@@ -100,10 +95,19 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    public void RegisterPipeGap(Transform gap)
+    {
+        pipeGaps.Add(gap);
+    }
+
+    public void UnregisterPipeGap(Transform gap)
+    {
+        pipeGaps.Remove(gap);
+    }
+
+
     private void OnDestroy()
     {
-        GameManager.Instance.OnGameStart -= HandleStartGame;
-        GameManager.Instance.OnGameOver -= HandleGameOver;
-        GameManager.Instance.OnScoreChanged -= HandleScoreChange;
+        return;
     }
 }

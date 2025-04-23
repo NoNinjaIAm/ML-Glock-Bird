@@ -11,7 +11,6 @@ public class MoveBackground : MonoBehaviour
        startPosition = transform.position;
        boxCollider = GetComponent<BoxCollider2D>();
        repeatWidth = boxCollider.size.x / 2f;
-       GameManager.Instance.OnGameOver += OnGameOver;
     }
 
     // Update is called once per frame
@@ -24,14 +23,5 @@ public class MoveBackground : MonoBehaviour
         transform.Translate(Vector2.left * speed * Time.deltaTime);
     }
 
-    private void OnGameOver()
-    {
-        GameManager.Instance.OnGameOver -= OnGameOver;
-        enabled = false;
-    }
 
-    private void OnDestroy()
-    {
-        GameManager.Instance.OnGameOver -= OnGameOver;
-    }
 }
