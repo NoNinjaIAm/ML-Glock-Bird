@@ -1,26 +1,4 @@
 {
-    "bird": {
-        "checkpoints": [
-            {
-                "steps": 832,
-                "file_path": "results\\bird1\\bird\\bird-832.onnx",
-                "reward": null,
-                "creation_time": 1745367486.3384964,
-                "auxillary_file_paths": [
-                    "results\\bird1\\bird\\bird-832.pt"
-                ]
-            }
-        ],
-        "final_checkpoint": {
-            "steps": 832,
-            "file_path": "results\\bird1\\bird.onnx",
-            "reward": null,
-            "creation_time": 1745367486.3384964,
-            "auxillary_file_paths": [
-                "results\\bird1\\bird\\bird-832.pt"
-            ]
-        }
-    },
     "metadata": {
         "stats_format_version": "0.3.0",
         "mlagents_version": "1.1.0",
