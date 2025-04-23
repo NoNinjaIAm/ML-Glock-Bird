@@ -1,0 +1,33 @@
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class GunHandler : MonoBehaviour
+{
+    public SpawnManager spawnManager;
+    private float xBound = 20f;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        spawnManager.OnDestroyingAllPipes += HandleGunDestruction;
+    }
+
+    void HandleGunDestruction()
+    {
+        Destroy(this.gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        spawnManager.OnDestroyingAllPipes -= HandleGunDestruction;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (transform.position.x > xBound || transform.position.x < -xBound)
+        {
+            Destroy(gameObject);
+        }
+    }
+}

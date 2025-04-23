@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5790387258913632199}
   - component: {fileID: 4606810865756806123}
   - component: {fileID: 6693772409376489918}
-  - component: {fileID: -5636142825838217933}
   - component: {fileID: 8301389610712849910}
+  - component: {fileID: 2248904657902704508}
   m_Layer: 0
   m_Name: GunPowerUp
   m_TagString: GunPU
@@ -126,18 +126,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.0033653378, y: 0}
   m_Radius: 0.12139984
---- !u!114 &-5636142825838217933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6621266056176519998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83fa93e1228a398458c60442c114c85c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8301389610712849910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,3 +142,16 @@ MonoBehaviour:
   speed: 3
   fasterWithProggresion: 1
   xSpeedBound: 6
+--- !u!114 &2248904657902704508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6621266056176519998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd8b9f805d552044a9cf47c74804e490, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnManager: {fileID: 0}

@@ -7,6 +7,9 @@ TagManager:
   - Pipe
   - GunPU
   - ScoreTriggerZone
+  - Lower Bound
+  - Upper Bound
+  - Left Bound
   layers:
   - Default
   - TransparentFX

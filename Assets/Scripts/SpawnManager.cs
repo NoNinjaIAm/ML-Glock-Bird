@@ -31,7 +31,7 @@ public class SpawnManager : MonoBehaviour
 
     public void HandleStartEpisode()
     {
-        StopCoroutine(SpawnObjects()); // Reset Coroutine
+        StopAllCoroutines();
         OnDestroyingAllPipes?.Invoke(); // Kill all existing pipes
 
         repeatTime = startRepeatTime;
@@ -66,7 +66,9 @@ public class SpawnManager : MonoBehaviour
                 spawnPositionX = spawnGunPositionX;
                 float spawnPositionY = UnityEngine.Random.Range(spawnRangeY.x, spawnRangeY.y);
 
-                Instantiate(objectToSpawn, new Vector2(spawnPositionX, spawnPositionY), objectToSpawn.transform.rotation);
+                // Pass reference to self to pipe
+                var spawnedGun = Instantiate(objectToSpawn, new Vector2(spawnPositionX, spawnPositionY), objectToSpawn.transform.rotation);
+                spawnedGun.GetComponent<GunHandler>().spawnManager = this;
             }
             else // Pipe is default case
             {

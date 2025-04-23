@@ -10,7 +10,7 @@ public class BirdAgent : Agent
     // Bird Variables
     [SerializeField] private float jumpStr = 10.0f;
     [SerializeField] private float jumpDelay = 0.5f;
-    private float upperBoundY = 4.5f;
+    private float upperBoundY = 6.22f;
     private float lowerBoundY = -6.0f;
     private Vector2 startPosition;
 
@@ -58,11 +58,6 @@ public class BirdAgent : Agent
         spawnManager.HandleStartEpisode();
     }
 
-    private void Update()
-    {
-        PlayerBoundCheckAndReact(); // Check to see if the player is ever out of bounds
-    }
-
     public override void CollectObservations(VectorSensor sensor)
     {
 
@@ -73,6 +68,8 @@ public class BirdAgent : Agent
         {
             float xDist = nextGap.position.x - transform.position.x;
             float yDiff = nextGap.position.y - transform.position.y;
+
+            Debug.Log("Next gap is at a distance of something... ");
 
             sensor.AddObservation(xDist / 10f);   // normalize horizontally
             sensor.AddObservation(yDiff / 10f);    // normalize vertically
@@ -159,6 +156,19 @@ public class BirdAgent : Agent
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Lower Bound"))
+        {
+            FellOutOfBounds();
+        }
+        else if (collision.gameObject.CompareTag("Upper Bound"))
+        {
+            SmackedCeiling();
+        }
+    }
+
+
     private void PlayerBoundCheckAndReact()
     {
         if (!alreadyFailed) return;
@@ -167,7 +177,7 @@ public class BirdAgent : Agent
         if (transform.position.y > upperBoundY)
         {
             transform.position = new Vector2(transform.position.x, upperBoundY);
-            SmackedCeiling();
+            
         }
         // if we're below lower bound die
         else if (transform.position.y < lowerBoundY) FellOutOfBounds();
@@ -204,6 +214,7 @@ public class BirdAgent : Agent
     // Punish Death
     private void HitPipe()
     {
+        Debug.Log("Hit Pipe");
         AddReward(-1.0f);
         alreadyFailed = true;
         EndEpisode();
@@ -212,6 +223,7 @@ public class BirdAgent : Agent
     // Punish Death
     private void FellOutOfBounds()
     {
+        Debug.Log("Fell Out of Bounds");
         AddReward(-1.0f);
         alreadyFailed = true;
         EndEpisode();
@@ -220,6 +232,7 @@ public class BirdAgent : Agent
     // Punish ceiling clinging
     private void SmackedCeiling()
     {
+        Debug.Log("Smacked Ceiling");
         AddReward(-0.05f);
     }
 }

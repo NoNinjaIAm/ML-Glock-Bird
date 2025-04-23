@@ -32,4 +32,5 @@ public class PipeHandler : MonoBehaviour
         spawnManager.UnregisterPipeGap(pipeGap.transform);
         spawnManager.OnDestroyingAllPipes -= HandleDestruction;
     }
+
 }
