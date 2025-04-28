@@ -44,6 +44,13 @@ public class SpawnManager : MonoBehaviour
         spawning = false;
     }
 
+    private void Start()
+    {
+        spawnPipePositionX = transform.parent.localPosition.x + 16.5f;
+        spawnGunPositionX = transform.parent.localPosition.x + 16.5f;
+        spawnPipeRangeY = new Vector2(transform.parent.localPosition.y - 1.0f, transform.parent.localPosition.y + 5.5f);
+        spawnGunRangeY = new Vector2(transform.parent.localPosition.y - 2.5f, transform.parent.localPosition.y + 6.5f);
+    }
 
     private IEnumerator SpawnObjects ()
     {
@@ -67,7 +74,7 @@ public class SpawnManager : MonoBehaviour
                 float spawnPositionY = UnityEngine.Random.Range(spawnRangeY.x, spawnRangeY.y);
 
                 // Pass reference to self to pipe
-                var spawnedGun = Instantiate(objectToSpawn, new Vector2(spawnPositionX, spawnPositionY), objectToSpawn.transform.rotation);
+                var spawnedGun = Instantiate(objectToSpawn, new Vector2(spawnPositionX, spawnPositionY), objectToSpawn.transform.rotation, transform);
                 spawnedGun.GetComponent<GunHandler>().spawnManager = this;
             }
             else // Pipe is default case
@@ -78,7 +85,7 @@ public class SpawnManager : MonoBehaviour
                 float spawnPositionY = UnityEngine.Random.Range(spawnRangeY.x, spawnRangeY.y);
 
                 // Pass reference to self to pipe
-                var spawnedPipe = Instantiate(objectToSpawn, new Vector2(spawnPositionX, spawnPositionY), objectToSpawn.transform.rotation);
+                var spawnedPipe = Instantiate(objectToSpawn, new Vector2(spawnPositionX, spawnPositionY), objectToSpawn.transform.rotation, transform);
                 spawnedPipe.GetComponent<PipeHandler>().spawnManager = this;
             }
             

@@ -4,14 +4,13 @@ using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using System.Collections;
 using Unity.VisualScripting;
+using TMPro;
 
 public class BirdAgent : Agent
 {
     // Bird Variables
-    [SerializeField] private float jumpStr = 10.0f;
+    [SerializeField] private float jumpStr = 1.0f;
     [SerializeField] private float jumpDelay = 0.5f;
-    private float upperBoundY = 6.22f;
-    private float lowerBoundY = -6.0f;
     private Vector2 startPosition;
 
     [SerializeField] private GameObject bulletPrefab;
@@ -19,6 +18,7 @@ public class BirdAgent : Agent
     private Rigidbody2D rb;
     private Animator animator;
 
+    // State Variables
     private bool isJumping = false;
     private bool hasGun = false;
     private bool alreadyFailed = false;
@@ -31,11 +31,25 @@ public class BirdAgent : Agent
     private int _currentEpisode = 0;
     private float _cummReward = 0f;
 
+    // Testing Labels
+    [SerializeField] private TextMeshProUGUI currentScoreLabel;
+    [SerializeField] private TextMeshProUGUI highscoreLabel;
+    [SerializeField] private TextMeshProUGUI currentEpisodeLabel;
+    [SerializeField] private TextMeshProUGUI closestPipeDistLabel;
+    [SerializeField] private TextMeshProUGUI jumpsThisGameLabel;
+    [SerializeField] private TextMeshProUGUI shotsThisGameLabel;
+    [SerializeField] private TextMeshProUGUI cummAILabel;
+
+    // Game vars
+    private int _currentScore = 0;
+    private int _highscore = 0;
+    private int _jumps_this_game = 0;
+    private int _totalGunShots = 0;
+
     public override void Initialize()
     {
         Debug.Log("Initialize");
 
-        startPosition = transform.localPosition;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         startPosition = transform.localPosition;
@@ -48,6 +62,14 @@ public class BirdAgent : Agent
 
         _currentEpisode++;
         _cummReward = 0f;
+        _currentScore = 0;
+        _jumps_this_game = 0;
+
+        // Reset Some UI
+        currentScoreLabel.text = "Current Score: " + 0;
+        currentEpisodeLabel.text = "Current Episode: " + _currentEpisode;
+        jumpsThisGameLabel.text = "Jumps This Game: " + 0; 
+        CheckHighScoreAndUpdateLabel();
 
         isJumping = false;
         hasGun = false;
@@ -64,10 +86,14 @@ public class BirdAgent : Agent
         // Get the next gap we can see
         Transform nextGap = GetNextGap();
 
+        UnityEngine.Debug.Log("nextGap.position.x.ToString()");
+
         if (nextGap != null)
         {
-            float xDist = nextGap.position.x - transform.position.x;
-            float yDiff = nextGap.position.y - transform.position.y;
+            float xDist = nextGap.localPosition.x - transform.localPosition.x;
+            float yDiff = nextGap.localPosition.y - transform.localPosition.y;
+
+            UpdateClosestGapLabel(xDist);
 
             Debug.Log("Next gap is at a distance of something... ");
 
@@ -88,6 +114,18 @@ public class BirdAgent : Agent
         sensor.AddObservation(birdVelocityY_normalized);
     }
 
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        var discreteActionsOut = actionsOut.DiscreteActions;
+
+        discreteActionsOut[0] = 0;
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            discreteActionsOut[0] = 1;
+        }
+    }
+
     public override void OnActionReceived(ActionBuffers actions)
     {
         _cummReward = GetCumulativeReward();
@@ -106,9 +144,14 @@ public class BirdAgent : Agent
     { 
         if (isJumping)
         {
-            AddReward(-0.05f); // Punish Jump Spam during jump delay
+            AddReward(-0.01f); // Punish Jump Spam during jump delay
+            _cummReward = GetCumulativeReward();
+            UpdateCummRewardLabel();
         }
-        StartCoroutine(JumpCoe()); 
+        else
+        {
+            StartCoroutine(JumpCoe());
+        }
     }
 
     // Jump coroutine. This is how timing for jump works.
@@ -121,6 +164,7 @@ public class BirdAgent : Agent
         SoundManager.instance.PlaySound("Jump");
         animator.SetTrigger("jump_trig");
         rb.linearVelocityY = jumpStr;
+        IncrementJumpsThisGame();
 
         // Wait
         yield return new WaitForSeconds(jumpDelay);
@@ -143,9 +187,8 @@ public class BirdAgent : Agent
         // Hit Gun Powerup
         else if (collision.gameObject.CompareTag("GunPU"))
         {
+            CollectedGun();
             //Debug.Log("PowerUp Get!");
-            hasGun = true;
-            animator.SetBool("hasGun_bool", true);
             SoundManager.instance.PlaySound("GetGun");
             Destroy(collision.gameObject);
         }
@@ -168,19 +211,24 @@ public class BirdAgent : Agent
         }
     }
 
-
-    private void PlayerBoundCheckAndReact()
+    private void CheckHighScoreAndUpdateLabel()
     {
-        if (!alreadyFailed) return;
-
-        // if we're above level upper bound
-        if (transform.position.y > upperBoundY)
+        if (_currentScore > _highscore)
         {
-            transform.position = new Vector2(transform.position.x, upperBoundY);
-            
+            _highscore = _currentScore;
+            highscoreLabel.text = "Highscore: " + _highscore;
         }
-        // if we're below lower bound die
-        else if (transform.position.y < lowerBoundY) FellOutOfBounds();
+    }
+
+    private void UpdateClosestGapLabel(float distX)
+    {
+        closestPipeDistLabel.text = "Closest Pipe Dist X: " + distX;
+    }
+
+    private void IncrementJumpsThisGame()
+    {
+        _jumps_this_game++;
+        jumpsThisGameLabel.text = "Jumps This Game: " + _jumps_this_game;
     }
 
     Transform GetNextGap()
@@ -190,7 +238,7 @@ public class BirdAgent : Agent
 
         foreach (Transform gap in spawnManager.pipeGaps)
         {
-            float xDist = gap.position.x - transform.position.x;
+            float xDist = gap.localPosition.x - transform.localPosition.x;
 
             if (xDist > 0 && xDist < closestXDist)
             {
@@ -202,13 +250,40 @@ public class BirdAgent : Agent
         return closest;
     }
 
+    private void CollectedGun()
+    {
+        hasGun = true;
+        animator.SetBool("hasGun_bool", true);
+
+        AddReward(0.5f);
+        _cummReward = GetCumulativeReward();
+        UpdateCummRewardLabel();
+
+        ShootGun(); // Shoot right when grabbed
+    }
+
+    private void ShootGun()
+    {
+        Instantiate(bulletPrefab, transform.position, bulletPrefab.transform.rotation, transform.parent); // bullet spawn
+        Instantiate(muzzleFlashPrefab, transform.position, muzzleFlashPrefab.transform.rotation, transform.parent); // muzzle flash
+        hasGun = false;
+        animator.SetBool("hasGun_bool", false);
+        SoundManager.instance.PlaySound("GunShot");
+
+        // Gunshots
+        _totalGunShots++;
+        shotsThisGameLabel.text = "Total Gun Shots: " + _totalGunShots;
+    }
+
     // Reward progression
     private void PassedPipe()
     {
         //PlayerPassedPipe?.Invoke();
-
+        _currentScore++;
+        currentScoreLabel.text = "Current Score: " + _currentScore;
         AddReward(1.0f);
         _cummReward = GetCumulativeReward();
+        UpdateCummRewardLabel();
     }
 
     // Punish Death
@@ -216,7 +291,10 @@ public class BirdAgent : Agent
     {
         Debug.Log("Hit Pipe");
         AddReward(-1.0f);
+        _cummReward = GetCumulativeReward();
         alreadyFailed = true;
+        CheckHighScoreAndUpdateLabel();
+        UpdateCummRewardLabel();
         EndEpisode();
     }
 
@@ -225,7 +303,10 @@ public class BirdAgent : Agent
     {
         Debug.Log("Fell Out of Bounds");
         AddReward(-1.0f);
+        _cummReward = GetCumulativeReward();
         alreadyFailed = true;
+        CheckHighScoreAndUpdateLabel();
+        UpdateCummRewardLabel();
         EndEpisode();
     }
 
@@ -234,5 +315,12 @@ public class BirdAgent : Agent
     {
         Debug.Log("Smacked Ceiling");
         AddReward(-0.05f);
+        _cummReward = GetCumulativeReward();
+        UpdateCummRewardLabel();
+    }
+
+    private void UpdateCummRewardLabel()
+    {
+        cummAILabel.text = "Cummulative AI Reward: " + _cummReward;
     }
 }

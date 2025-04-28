@@ -11,11 +11,12 @@ public class PipeHandler : MonoBehaviour
     {
         spawnManager.OnDestroyingAllPipes += HandleDestruction;
         spawnManager.RegisterPipeGap(pipeGap.transform);
+        xBound = transform.parent.localPosition.x + 30f;
     }
 
     void Update()
     {
-        if (transform.position.x > xBound || transform.position.x < -xBound)
+        if (transform.localPosition.x > xBound || transform.localPosition.x < -xBound)
         {
             Destroy(gameObject);
         }

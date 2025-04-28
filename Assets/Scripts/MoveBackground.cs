@@ -8,7 +8,7 @@ public class MoveBackground : MonoBehaviour
     private float repeatWidth;
     void Start()
     {
-       startPosition = transform.position;
+       startPosition = transform.localPosition;
        boxCollider = GetComponent<BoxCollider2D>();
        repeatWidth = boxCollider.size.x / 2f;
     }
@@ -16,9 +16,9 @@ public class MoveBackground : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.x < startPosition.x - repeatWidth)
+        if (transform.localPosition.x < startPosition.x - repeatWidth)
         {
-            transform.position = startPosition;
+            transform.localPosition = startPosition;
         }
         transform.Translate(Vector2.left * speed * Time.deltaTime);
     }

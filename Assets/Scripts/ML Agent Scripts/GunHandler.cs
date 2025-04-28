@@ -10,6 +10,7 @@ public class GunHandler : MonoBehaviour
     void Start()
     {
         spawnManager.OnDestroyingAllPipes += HandleGunDestruction;
+        xBound = transform.parent.localPosition.x + 20f;
     }
 
     void HandleGunDestruction()
@@ -25,7 +26,7 @@ public class GunHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.x > xBound || transform.position.x < -xBound)
+        if (transform.localPosition.x > xBound || transform.localPosition.x < -xBound)
         {
             Destroy(gameObject);
         }
