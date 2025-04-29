@@ -10,7 +10,7 @@ public class BirdAgent : Agent
 {
     // Bird Variables
     [SerializeField] private float jumpStr = 1.0f;
-    [SerializeField] private float jumpDelay = 0.5f;
+    [SerializeField] private float jumpDelay = 0.25f;
     private Vector2 startPosition;
 
     [SerializeField] private GameObject bulletPrefab;
@@ -30,6 +30,7 @@ public class BirdAgent : Agent
     // ML-Agent Variables
     private int _currentEpisode = 0;
     private float _cummReward = 0f;
+    float yValidSuccessRange = 4.0f;
 
     // Testing Labels
     [SerializeField] private TextMeshProUGUI currentScoreLabel;
@@ -46,6 +47,8 @@ public class BirdAgent : Agent
     private int _jumps_this_game = 0;
     private int _totalGunShots = 0;
 
+    Transform nextGap = null;
+
     public override void Initialize()
     {
         Debug.Log("Initialize");
@@ -58,12 +61,15 @@ public class BirdAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        Debug.Log("Episode Started");
+        //Debug.Log("Episode Started");
+        StopAllCoroutines();
 
+        StartCoroutine(SamplePipeDist());
         _currentEpisode++;
         _cummReward = 0f;
         _currentScore = 0;
         _jumps_this_game = 0;
+        TrainingManager.num_epsiodes++;
 
         // Reset Some UI
         currentScoreLabel.text = "Current Score: " + 0;
@@ -83,19 +89,14 @@ public class BirdAgent : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
 
-        // Get the next gap we can see
-        Transform nextGap = GetNextGap();
-
-        UnityEngine.Debug.Log("nextGap.position.x.ToString()");
-
         if (nextGap != null)
         {
-            float xDist = nextGap.localPosition.x - transform.localPosition.x;
-            float yDiff = nextGap.localPosition.y - transform.localPosition.y;
+            float xDist = nextGap.position.x - transform.position.x;
+            float yDiff = nextGap.position.y - transform.position.y;
 
-            UpdateClosestGapLabel(xDist);
+            UpdateClosestGapLabel(yDiff);
 
-            Debug.Log("Next gap is at a distance of something... ");
+            //Debug.Log("Next gap is at a distance of something... ");
 
             sensor.AddObservation(xDist / 10f);   // normalize horizontally
             sensor.AddObservation(yDiff / 10f);    // normalize vertically
@@ -173,6 +174,40 @@ public class BirdAgent : Agent
         isJumping = false;
     }
 
+    private IEnumerator SamplePipeDist()
+    {
+        while (true)
+        {
+            // Get the next gap we can see
+            nextGap = GetNextGap();
+            
+            if (nextGap != null)
+            {
+                CheckIfBadYDistance();
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    private void CheckIfBadYDistance()
+    {
+        float yDiff = nextGap.position.y - transform.position.y;
+        
+
+        if (Mathf.Abs(yDiff) > yValidSuccessRange)
+        {
+            AddReward(yDiff * -0.005f);
+        }
+        else
+        {
+            AddReward(0.001f); // small positive reward for staying well aligned!
+        }
+
+        _cummReward = GetCumulativeReward();
+        UpdateCummRewardLabel();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (alreadyFailed) return;  
@@ -238,7 +273,9 @@ public class BirdAgent : Agent
 
         foreach (Transform gap in spawnManager.pipeGaps)
         {
-            float xDist = gap.localPosition.x - transform.localPosition.x;
+            float xDist = gap.position.x - transform.position.x;
+
+            //Debug.Log("Found a pipe with xDist of " + xDist);
 
             if (xDist > 0 && xDist < closestXDist)
             {
@@ -289,7 +326,7 @@ public class BirdAgent : Agent
     // Punish Death
     private void HitPipe()
     {
-        Debug.Log("Hit Pipe");
+        //Debug.Log("Hit Pipe");
         AddReward(-1.0f);
         _cummReward = GetCumulativeReward();
         alreadyFailed = true;
@@ -301,7 +338,7 @@ public class BirdAgent : Agent
     // Punish Death
     private void FellOutOfBounds()
     {
-        Debug.Log("Fell Out of Bounds");
+        //Debug.Log("Fell Out of Bounds");
         AddReward(-1.0f);
         _cummReward = GetCumulativeReward();
         alreadyFailed = true;
@@ -313,7 +350,7 @@ public class BirdAgent : Agent
     // Punish ceiling clinging
     private void SmackedCeiling()
     {
-        Debug.Log("Smacked Ceiling");
+        //Debug.Log("Smacked Ceiling");
         AddReward(-0.05f);
         _cummReward = GetCumulativeReward();
         UpdateCummRewardLabel();

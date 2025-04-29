@@ -11,6 +11,8 @@ public class GunHandler : MonoBehaviour
     {
         spawnManager.OnDestroyingAllPipes += HandleGunDestruction;
         xBound = transform.parent.localPosition.x + 20f;
+
+        spawnManager.RegisterPipeGap(transform); // Counting the gun as a pipe gap so bird goes for it
     }
 
     void HandleGunDestruction()
@@ -21,6 +23,7 @@ public class GunHandler : MonoBehaviour
     private void OnDestroy()
     {
         spawnManager.OnDestroyingAllPipes -= HandleGunDestruction;
+        spawnManager.UnregisterPipeGap(transform);
     }
 
     // Update is called once per frame

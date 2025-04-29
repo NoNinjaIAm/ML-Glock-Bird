@@ -18,7 +18,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float startRepeatTime = 1.0f;
     private float repeatTime;
     private float repeatScale = 0.1f;
-    private float minRepeatTime = 2.5f;
+    private float minRepeatTime = 3.0f;
 
     bool spawning = true;
     private float cumScore = 0.0f;
@@ -33,6 +33,8 @@ public class SpawnManager : MonoBehaviour
     {
         StopAllCoroutines();
         OnDestroyingAllPipes?.Invoke(); // Kill all existing pipes
+
+        //Debug.Log("Pipes reigstered after restart: " + pipeGaps.Count);
 
         repeatTime = startRepeatTime;
         StartCoroutine(SpawnObjects());
@@ -106,11 +108,13 @@ public class SpawnManager : MonoBehaviour
 
     public void RegisterPipeGap(Transform gap)
     {
+        //Debug.Log("Pipe registered");
         pipeGaps.Add(gap);
     }
 
     public void UnregisterPipeGap(Transform gap)
     {
+        //Debug.Log("Pipe unregistered");
         pipeGaps.Remove(gap);
     }
 
