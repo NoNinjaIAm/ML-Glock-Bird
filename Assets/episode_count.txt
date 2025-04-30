@@ -1,1 +1,1 @@
-Number of games ran in training: 30
+Number of games ran in training: 50

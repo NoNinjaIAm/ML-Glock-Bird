@@ -1,0 +1,65 @@
+{
+    "Bird": {
+        "checkpoints": [
+            {
+                "steps": 3499990,
+                "file_path": "results\\12Bird-Long\\Bird\\Bird-3499990.onnx",
+                "reward": 1.1087877638426356,
+                "creation_time": 1745966246.4625676,
+                "auxillary_file_paths": [
+                    "results\\12Bird-Long\\Bird\\Bird-3499990.pt"
+                ]
+            },
+            {
+                "steps": 3999969,
+                "file_path": "results\\12Bird-Long\\Bird\\Bird-3999969.onnx",
+                "reward": 0.1306194786780647,
+                "creation_time": 1745967026.5167296,
+                "auxillary_file_paths": [
+                    "results\\12Bird-Long\\Bird\\Bird-3999969.pt"
+                ]
+            },
+            {
+                "steps": 4499942,
+                "file_path": "results\\12Bird-Long\\Bird\\Bird-4499942.onnx",
+                "reward": 2.049414339914,
+                "creation_time": 1745967800.3341286,
+                "auxillary_file_paths": [
+                    "results\\12Bird-Long\\Bird\\Bird-4499942.pt"
+                ]
+            },
+            {
+                "steps": 4999942,
+                "file_path": "results\\12Bird-Long\\Bird\\Bird-4999942.onnx",
+                "reward": 1.297220407538116,
+                "creation_time": 1745968582.7312076,
+                "auxillary_file_paths": [
+                    "results\\12Bird-Long\\Bird\\Bird-4999942.pt"
+                ]
+            },
+            {
+                "steps": 5046418,
+                "file_path": "results\\12Bird-Long\\Bird\\Bird-5046418.onnx",
+                "reward": 7.8019566558650695,
+                "creation_time": 1745968701.1038744,
+                "auxillary_file_paths": [
+                    "results\\12Bird-Long\\Bird\\Bird-5046418.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 5046418,
+            "file_path": "results\\12Bird-Long\\Bird.onnx",
+            "reward": 7.8019566558650695,
+            "creation_time": 1745968701.1038744,
+            "auxillary_file_paths": [
+                "results\\12Bird-Long\\Bird\\Bird-5046418.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

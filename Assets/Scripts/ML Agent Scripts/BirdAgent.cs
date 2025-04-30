@@ -91,15 +91,14 @@ public class BirdAgent : Agent
 
         if (nextGap != null)
         {
-            float xDist = nextGap.position.x - transform.position.x;
-            float yDiff = nextGap.position.y - transform.position.y;
+            float xDist = nextGap.position.x - transform.position.x; // Get x dist to nearest pipe gap
+            float yDiff = nextGap.position.y - transform.position.y; // Get y dist to nearest pipe gap
 
-            UpdateClosestGapLabel(yDiff);
+            UpdateClosestGapLabel(yDiff); // Update UI
 
-            //Debug.Log("Next gap is at a distance of something... ");
-
-            sensor.AddObservation(xDist / 10f);   // normalize horizontally
-            sensor.AddObservation(yDiff / 10f);    // normalize vertically
+            // Feed the observation, normalized so no widely varying data sets
+            sensor.AddObservation(xDist / 10f); // normalize horizontally
+            sensor.AddObservation(yDiff / 10f); // normalize vertically
         }
         else
         {
@@ -107,10 +106,11 @@ public class BirdAgent : Agent
             sensor.AddObservation(0f);  // neutral vertical offset
         }
 
-        // Get bird info
-        float birdPosY_normalized = transform.localPosition.y / 6.5f;
-        float birdVelocityY_normalized = rb.linearVelocityY / 6.5f;
+        // // // Get bird info // // //
+        float birdPosY_normalized = transform.localPosition.y / 6.5f; // Normalized bird pos y
+        float birdVelocityY_normalized = rb.linearVelocityY / 6.5f; // Normalized bird y velocity
 
+        // Add observations //
         sensor.AddObservation(birdPosY_normalized);
         sensor.AddObservation(birdVelocityY_normalized);
     }
@@ -289,12 +289,14 @@ public class BirdAgent : Agent
 
     private void CollectedGun()
     {
+        // Animation and state handling
         hasGun = true;
         animator.SetBool("hasGun_bool", true);
 
+        // Adding a small reward for grabbing gun
         AddReward(0.5f);
-        _cummReward = GetCumulativeReward();
-        UpdateCummRewardLabel();
+        _cummReward = GetCumulativeReward(); // Get cumm reward
+        UpdateCummRewardLabel(); // Update Label
 
         ShootGun(); // Shoot right when grabbed
     }

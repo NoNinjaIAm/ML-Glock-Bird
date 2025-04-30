@@ -171,10 +171,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ML Agent Environment (8)
       objectReference: {fileID: 0}
-    - target: {fileID: 9215621081514613974, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
-      propertyPath: m_text
-      value: 'Closest Pipe DIst: '
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -448,10 +444,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ML Agent Environment (13)
       objectReference: {fileID: 0}
-    - target: {fileID: 9215621081514613974, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
-      propertyPath: m_text
-      value: 'Closest Pipe DIst: '
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -508,10 +500,6 @@ PrefabInstance:
     - target: {fileID: 5944831809681351665, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
       propertyPath: m_Name
       value: ML Agent Environment (12)
-      objectReference: {fileID: 0}
-    - target: {fileID: 9215621081514613974, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
-      propertyPath: m_text
-      value: 'Closest Pipe DIst: '
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -570,10 +558,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ML Agent Environment (6)
       objectReference: {fileID: 0}
-    - target: {fileID: 9215621081514613974, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
-      propertyPath: m_text
-      value: 'Closest Pipe DIst: '
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -630,10 +614,6 @@ PrefabInstance:
     - target: {fileID: 5944831809681351665, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
       propertyPath: m_Name
       value: ML Agent Environment (11)
-      objectReference: {fileID: 0}
-    - target: {fileID: 9215621081514613974, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
-      propertyPath: m_text
-      value: 'Closest Pipe DIst: '
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -692,10 +672,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ML Agent Environment (4)
       objectReference: {fileID: 0}
-    - target: {fileID: 9215621081514613974, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
-      propertyPath: m_text
-      value: 'Closest Pipe DIst: '
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -752,10 +728,6 @@ PrefabInstance:
     - target: {fileID: 5944831809681351665, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
       propertyPath: m_Name
       value: ML Agent Environment (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 9215621081514613974, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
-      propertyPath: m_text
-      value: 'Closest Pipe DIst: '
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -814,10 +786,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ML Agent Environment (10)
       objectReference: {fileID: 0}
-    - target: {fileID: 9215621081514613974, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
-      propertyPath: m_text
-      value: 'Closest Pipe DIst: '
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -874,10 +842,6 @@ PrefabInstance:
     - target: {fileID: 5944831809681351665, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
       propertyPath: m_Name
       value: ML Agent Environment (7)
-      objectReference: {fileID: 0}
-    - target: {fileID: 9215621081514613974, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
-      propertyPath: m_text
-      value: 'Closest Pipe DIst: '
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -936,10 +900,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ML Agent Environment (9)
       objectReference: {fileID: 0}
-    - target: {fileID: 9215621081514613974, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
-      propertyPath: m_text
-      value: 'Closest Pipe DIst: '
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -996,10 +956,6 @@ PrefabInstance:
     - target: {fileID: 5944831809681351665, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
       propertyPath: m_Name
       value: ML Agent Environment (5)
-      objectReference: {fileID: 0}
-    - target: {fileID: 9215621081514613974, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
-      propertyPath: m_text
-      value: 'Closest Pipe DIst: '
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1295,10 +1251,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ML Agent Environment (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 9215621081514613974, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
-      propertyPath: m_text
-      value: 'Closest Pipe DIst: '
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1355,10 +1307,6 @@ PrefabInstance:
     - target: {fileID: 5944831809681351665, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
       propertyPath: m_Name
       value: ML Agent Environment (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 9215621081514613974, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
-      propertyPath: m_text
-      value: 'Closest Pipe DIst: '
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1461,10 +1409,6 @@ PrefabInstance:
     - target: {fileID: 5944831809681351665, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
       propertyPath: m_Name
       value: ML Agent Environment
-      objectReference: {fileID: 0}
-    - target: {fileID: 9215621081514613974, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
-      propertyPath: m_text
-      value: 'Closest Pipe DIst: '
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

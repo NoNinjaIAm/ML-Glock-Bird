@@ -620,6 +620,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1544012305073425097, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 03bbf2ba3236d124297f78b3821c0cd7, type: 3}
     - target: {fileID: 5944831809681351665, guid: f90b530e2e179d748a714f3eb8df90e5, type: 3}
       propertyPath: m_Name
       value: ML Agent Environment
